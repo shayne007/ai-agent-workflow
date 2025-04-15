@@ -1,0 +1,42 @@
+ai-agent-workflow/
+├── src/
+│   ├── main/
+│   │   ├── java/com/fintech/aiagent/
+│   │   │   ├── domain/                    # Domain Layer
+│   │   │   │   ├── agent/                 # Agent Domain
+│   │   │   │   │   ├── aggregate/         # Aggregate Roots
+│   │   │   │   │   ├── entity/           # Domain Entities
+│   │   │   │   │   ├── repository/       # Repository Interfaces
+│   │   │   │   │   ├── service/          # Domain Services
+│   │   │   │   │   └── valueobject/      # Value Objects
+│   │   │   │   ├── workflow/             # Workflow Domain
+│   │   │   │   ├── credit/               # Credit Domain
+│   │   │   │   ├── customer/             # Customer Domain
+│   │   │   │   └── risk/                 # Risk Domain
+│   │   │   ├── application/              # Application Layer
+│   │   │   │   ├── service/              # Application Services
+│   │   │   │   └── dto/                  # Data Transfer Objects
+│   │   │   ├── infrastructure/           # Infrastructure Layer
+│   │   │   │   ├── config/              # Configuration Classes
+│   │   │   │   ├── persistence/         # Repository Implementations
+│   │   │   │   ├── messaging/           # Message Queue Implementation
+│   │   │   │   └── security/            # Security Implementation
+│   │   │   └── interfaces/              # Interface Layer
+│   │   │       └── api/                 # REST Controllers
+│   │   └── resources/
+│   │       ├── config/                  # Configuration Files
+│   │       ├── db/migration/            # Database Migration Scripts
+│   │       └── templates/               # Template Files
+│   └── test/
+│       ├── java/com/fintech/aiagent/    # Test Classes
+│       │   ├── domain/                  # Domain Tests
+│       │   │   ├── agent/
+│       │   │   │   ├── unit/           # Unit Tests
+│       │   │   │   └── integration/    # Integration Tests
+│       │   │   └── ...
+│       │   ├── application/            # Application Layer Tests
+│       │   ├── infrastructure/         # Infrastructure Tests
+│       │   └── interfaces/             # Interface Layer Tests
+│       └── resources/                  # Test Resources
+├── docs/                              # Documentation
+└── scripts/                           # Build and Deployment Scripts

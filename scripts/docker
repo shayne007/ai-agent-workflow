@@ -1,0 +1,9 @@
+docker run -p 3306:3306 --name mysql \
+-v /Users/fengshiyi/Downloads/shayne/learning/LLM/ai-agent-workflow/data/mysql/log:/var/log/mysql \
+-v /Users/fengshiyi/Downloads/shayne/learning/LLM/ai-agent-workflow/data/mysql/data:/var/lib/mysql \
+-v /Users/fengshiyi/Downloads/shayne/learning/LLM/ai-agent-workflow/data/mysql/conf:/etc/mysql/conf.d \
+-e MYSQL_ROOT_PASSWORD=root \
+-d mysql:8.0
+
+mysql -h localhost -P 3306 --protocol=tcp -u root -p
+
