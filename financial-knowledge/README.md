@@ -25,5 +25,9 @@ http://localhost:9200/financial-knowledge-index/_search?q=*&pretty
 - topK数据与message整合成新的message交个LLM
 - 系统提示词中配置，要求只回答和向量数据库中数据相关的问题，该配置整合成新的message交个LLM
 - LLM返回数据，结果符合系统提示词要求
-http://localhost:8084/api/v1/knowledge/chat?message=关于spring%20ai%20alibaba你知道些什么？
+
+询问不想干的知识：
+http://localhost:8084/api/v1/knowledge/chat?message=%E5%85%B3%E4%BA%8E%E7%9F%A5%E8%AF%86%E5%BA%93%E4%BD%A0%E7%9F%A5%E9%81%93%E4%BA%9B%E4%BB%80%E4%B9%88%EF%BC%9F
+询问Spring AI alibaba:
+http://localhost:8084/api/v1/knowledge/chat?message=%E5%85%B3%E4%BA%8Espring%20ai%20alibaba%E4%BD%A0%E7%9F%A5%E9%81%93%E4%BA%9B%E4%BB%80%E4%B9%88%EF%BC%9F
 ![img_1.png](img_1.png)

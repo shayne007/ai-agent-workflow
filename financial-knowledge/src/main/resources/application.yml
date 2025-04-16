@@ -2,14 +2,14 @@ spring:
   application:
     name: financial-knowledge-service
   ai:
-    dashscope:
-      api-key: ${AI_DASHSCOPE_API_KEY}
-#    ollama:
-#      base-url: http://127.0.0.1:11434
-#      chat:
-#        model: deepseek-r1-think:7b
-#      embedding:
-#        model: nomic-embed-text:latest
+#    dashscope:
+#      api-key: ${AI_DASHSCOPE_API_KEY}
+    ollama:
+      base-url: http://127.0.0.1:11434
+      chat:
+        model: deepseek-r1-think:7b
+      embedding:
+        model: nomic-embed-text:latest
 
     vectorstore:
       elasticsearch:
