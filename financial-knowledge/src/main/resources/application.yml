@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: financial-knowledge-service
+  ai:
+    dashscope:
+      api-key: ${AI_DASHSCOPE_API_KEY}
+#    ollama:
+#      base-url: http://127.0.0.1:11434
+#      chat:
+#        model: deepseek-r1-think:7b
+#      embedding:
+#        model: nomic-embed-text:latest
+
+    vectorstore:
+      elasticsearch:
+        index-name: financial-knowledge-index
+        similarity: cosine
+        dimensions: 1536
+
+  elasticsearch:
+    uris: http://127.0.0.1:9200
+  http:
+    encoding:
+      enable: true
+      force: true
+      charset: UTF-8
+
+
+server:
+  port: 8084
+  servlet:
+    context-path: /
+  tomcat:
+    max-threads: 200
+    max-connections: 2000
+
+logging:
+  level:
+    root: INFO
+    com.fintech.aiagent: DEBUG
+    org.springframework.web: INFO
+    org.hibernate: INFO

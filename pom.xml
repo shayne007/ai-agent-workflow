@@ -19,9 +19,12 @@
   <description>AI Agent Workflow Engine</description>
   <modules>
     <module>credit</module>
-    <module>credit-apply</module>
+    <module>loan-apply</module>
     <module>notification</module>
     <module>voice</module>
+    <module>rule-engine</module>
+    <module>customer-service</module>
+    <module>financial-knowledge</module>
   </modules>
 
   <properties>
