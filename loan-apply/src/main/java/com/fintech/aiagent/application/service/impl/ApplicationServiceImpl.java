@@ -3,22 +3,29 @@ package com.fintech.aiagent.application.service.impl;
 import com.fintech.aiagent.application.dto.ApplicationSubmitRequest;
 import com.fintech.aiagent.application.dto.ApplicationSubmitResponse;
 import com.fintech.aiagent.application.service.ApplicationService;
-import com.fintech.aiagent.domain.credit.aggregate.CreditApplicationAggregate;
-import com.fintech.aiagent.domain.credit.entity.Document;
-import com.fintech.aiagent.domain.customer.valueobject.CustomerId;
+import com.fintech.aiagent.domain.aggregate.LoanApplyAggregate;
+import com.fintech.aiagent.domain.entity.Document;
+import com.fintech.aiagent.domain.valueobject.CustomerId;
+import com.fintech.aiagent.domain.repository.LoanApplyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.Instant;
 import java.util.*;
 
 @Service("creditApplicationServiceImpl")  // 修改Bean名称
 public class ApplicationServiceImpl implements ApplicationService {
+    private final LoanApplyRepository loanApplyRepository;
+
+    @Autowired
+    public ApplicationServiceImpl(LoanApplyRepository loanApplyRepository) {
+        this.loanApplyRepository = loanApplyRepository;
+    }
 
     @Override
     public ApplicationSubmitResponse submitApplication(ApplicationSubmitRequest request) {
         // 1. 创建信贷申请聚合根
-        CreditApplicationAggregate applicationAggregate = new CreditApplicationAggregate(
+        LoanApplyAggregate applicationAggregate = new LoanApplyAggregate(
                 new CustomerId(request.getUserId()),
                 request.getApplicationType()
         );
@@ -47,7 +54,9 @@ public class ApplicationServiceImpl implements ApplicationService {
             
             // 添加到申请中
             applicationAggregate.uploadDocument(document);
-            
+
+            loanApplyRepository.save(applicationAggregate);
+
             // 更新文件类型检查
             if ("id_card".equals(documentType)) {
                 hasIdCard = true;

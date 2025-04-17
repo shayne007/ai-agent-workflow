@@ -1,6 +1,6 @@
 spring:
   application:
-    name: ai-agent-workflow
+    name: loan-apply-service
   datasource:
     url: jdbc:h2:mem:ai_agent
     username: sa
@@ -25,9 +25,18 @@ spring:
       chat:
         options:
           model: deepseek-chat
-
+    chat:
+      client:
+        observations:
+          # 记录调用者输入的内容
+          include-input: true
+      observations:
+        # 记录大模型输出
+        include-completion: true
+        # 记录大模型提示词
+        include-prompt: true
 server:
-  port: 8080
+  port: 8088
   servlet:
     context-path: /
   tomcat:

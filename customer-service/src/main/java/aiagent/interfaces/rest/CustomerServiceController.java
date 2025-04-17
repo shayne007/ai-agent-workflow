@@ -1,10 +1,10 @@
 package aiagent.interfaces.rest;
 
-import aiagent.domain.customer.entity.Conversation;
-import aiagent.domain.customer.entity.Response;
-import aiagent.domain.customer.service.CustomerServiceDomainService;
-import aiagent.domain.customer.valueobject.ConversationId;
-import aiagent.domain.customer.valueobject.CustomerId;
+import aiagent.domain.entity.Conversation;
+import aiagent.domain.entity.Response;
+import aiagent.domain.service.CustomerServiceDomainService;
+import aiagent.domain.valueobject.ConversationId;
+import aiagent.domain.valueobject.CustomerId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -70,4 +70,11 @@ record ContinueConversationRequest(
     String sessionId,
     String inputText,
     String language
+) {}
+/**
+ * Request object for transferring to a human agent.
+ */
+ record TransferRequest(
+    String sessionId,
+    String reason
 ) {}

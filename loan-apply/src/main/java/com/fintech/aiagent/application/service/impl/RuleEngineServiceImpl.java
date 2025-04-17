@@ -3,7 +3,7 @@ package com.fintech.aiagent.application.service.impl;
 import com.fintech.aiagent.application.dto.CreditEvaluationRequest;
 import com.fintech.aiagent.application.dto.CreditEvaluationResponse;
 import com.fintech.aiagent.application.service.RuleEngineService;
-import com.fintech.aiagent.domain.credit.valueobject.ApprovalDecision;
+import com.fintech.aiagent.domain.valueobject.ApprovalDecision;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

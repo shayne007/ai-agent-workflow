@@ -5,12 +5,12 @@ import java.util.List;
 public class CreditQueryResponse {
     private int creditScore;
     private List<LoanHistoryDTO> loanHistory;
-    private boolean isCache;
+    private boolean fromCache;
 
     public CreditQueryResponse(int creditScore, List<LoanHistoryDTO> loanHistory, boolean isCache) {
         this.creditScore = creditScore;
         this.loanHistory = loanHistory;
-        this.isCache = isCache;
+        this.fromCache = isCache;
     }
 
     public int getCreditScore() {
@@ -21,8 +21,8 @@ public class CreditQueryResponse {
         return loanHistory;
     }
 
-    public boolean isCache() {
-        return isCache;
+    public boolean isFromCache() {
+        return fromCache;
     }
 
     public static class LoanHistoryDTO {
