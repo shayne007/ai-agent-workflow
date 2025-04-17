@@ -45,3 +45,6 @@ response:
 }
 we can see the response text and suggested actions.
 the response text is the response from the mcp server.
+
+one mcp client can connect to multiple mcp servers.
+- all the mcp servers should be started before starting the mcp client.

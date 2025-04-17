@@ -31,6 +31,8 @@ spring:
           connections:
             server1:
               url: http://localhost:8080  #服务地址
+            server2:
+              url: http://localhost:8081  #服务地址
 server:
   port: 8084
   servlet:

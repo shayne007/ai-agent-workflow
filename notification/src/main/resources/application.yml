@@ -1,4 +1,11 @@
 spring:
+  main:
+    banner-mode: off
+  ai:
+    mcp:
+      server:
+        name: notification-service-mcp-server
+        version: 0.0.1
   application:
     name: notification-service
   datasource:
