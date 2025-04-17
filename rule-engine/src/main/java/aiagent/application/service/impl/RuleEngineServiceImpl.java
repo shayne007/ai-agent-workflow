@@ -4,7 +4,7 @@ package aiagent.application.service.impl;
 import aiagent.application.dto.CreditEvaluationRequest;
 import aiagent.application.dto.CreditEvaluationResponse;
 import aiagent.application.service.RuleEngineService;
-import aiagent.domain.credit.valueobject.ApprovalDecision;
+import aiagent.domain.valueobject.ApprovalDecision;
 import org.springframework.stereotype.Service;
 
 import java.util.*;

@@ -1,4 +1,4 @@
-package aiagent.domain.credit.valueobject;
+package aiagent.domain.valueobject;
 
 import java.util.Objects;
 

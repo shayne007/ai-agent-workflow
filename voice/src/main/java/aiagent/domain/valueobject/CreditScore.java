@@ -1,4 +1,4 @@
-package aiagent.domain.credit.valueobject;
+package aiagent.domain.valueobject;
 
 public record CreditScore(int score) {
     public CreditScore {

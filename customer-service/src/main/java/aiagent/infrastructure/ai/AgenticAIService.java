@@ -1,6 +1,7 @@
 package aiagent.infrastructure.ai;
 
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.Primary;
@@ -12,8 +13,8 @@ public class AgenticAIService implements AIService {
     private final ChatClient chatClient;
     
     @Autowired
-    public AgenticAIService(ChatClient.Builder builder) {
-        this.chatClient = builder.build();
+    public AgenticAIService(ChatClient.Builder builder, ToolCallbackProvider tools) {
+        this.chatClient = builder.defaultTools(tools).build();
     }
     
     @Override

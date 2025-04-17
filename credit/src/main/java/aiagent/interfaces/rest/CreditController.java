@@ -19,7 +19,9 @@ public class CreditController {
 
     @GetMapping("/query/{userId}")
     public ResponseEntity<CreditQueryResponse> queryCreditData(@PathVariable String userId) {
+        System.out.println("Received request for credit data for user: " + userId);
         CreditQueryResponse response = creditService.queryCreditData(userId);
+        System.out.println("Credit data for user: " + userId + " is: " + response.toString());
         return ResponseEntity.ok(response);
     }
 }

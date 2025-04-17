@@ -25,9 +25,14 @@ spring:
       chat:
         options:
           model: deepseek-chat
-
+    mcp:
+      client:
+        sse:
+          connections:
+            server1:
+              url: http://localhost:8080  #服务地址
 server:
-  port: 8080
+  port: 8084
   servlet:
     context-path: /
   tomcat:
