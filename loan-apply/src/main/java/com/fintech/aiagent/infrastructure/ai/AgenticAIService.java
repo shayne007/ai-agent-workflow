@@ -4,7 +4,6 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.context.annotation.Primary;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 
 @Service
 @Primary

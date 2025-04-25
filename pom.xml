@@ -25,6 +25,8 @@
     <module>rule-engine</module>
     <module>customer-service</module>
     <module>financial-knowledge</module>
+    <module>framework-graph</module>
+    <module>workflow-customer-feedback</module>
   </modules>
 
   <properties>
