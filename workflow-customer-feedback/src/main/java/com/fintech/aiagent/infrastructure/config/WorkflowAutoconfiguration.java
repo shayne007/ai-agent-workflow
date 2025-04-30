@@ -40,9 +40,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class WorkflowAutoconfiguration {
 
-  public static final String SPECIFIC_QUESTION_CLASSIFIER = "specific_question_classifier";
-  public static final String FEEDBACK_CLASSIFIER = "feedback_classifier";
-  public static final String RECORDER = "recorder";
+  private static final String SPECIFIC_QUESTION_CLASSIFIER = "specific_question_classifier";
+  private static final String FEEDBACK_CLASSIFIER = "feedback_classifier";
+  private static final String RECORDER = "recorder";
 
   @Bean
   public StateGraph workflowGraph(ChatModel chatModel) throws GraphStateException {
