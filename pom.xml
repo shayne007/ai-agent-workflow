@@ -24,9 +24,10 @@
     <module>voice</module>
     <module>rule-engine</module>
     <module>customer-service</module>
-    <module>financial-knowledge</module>
-    <module>framework-graph</module>
-    <module>workflow-customer-feedback</module>
+    <module>rag-financial-knowledge</module>
+    <module>base-framework-graph</module>
+    <module>agent-customer-feedback</module>
+    <module>agent-stock-analysis</module>
   </modules>
 
   <properties>
