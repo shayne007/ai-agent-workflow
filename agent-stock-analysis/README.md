@@ -28,7 +28,8 @@ test manus request:
 http://localhost:18081/manus/chat?query=帮我查询阿里巴巴近一周的股票信息
 
 this is not going to work if the llm not using a tool calling, we need to fix the problem with structure the result with a planning object, no matter it use tool or not
-
+if everthing is ok, we can see result as below:
+![img.png](img.png)
 
 As a use for reference to manus, the stock analysis service can give advice to the user's stock require request.
 Before the implementation, we should provide:

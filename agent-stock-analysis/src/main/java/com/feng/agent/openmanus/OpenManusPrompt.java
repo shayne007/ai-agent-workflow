@@ -68,14 +68,6 @@ public interface OpenManusPrompt {
 				]
 			}
 			```
-			Then we can use the planning tool to save a structured plan, we continue this util  the planning tool is called to make sure we save a structured plan.
-			we call planning("create","1","查询阿里巴巴最近一周的股价信息并生成图表","[
-				"1. 打开浏览器并导航到百度首页",
-				"2. 输入“阿里巴巴最近一周股价”并开始搜索",
-				"3. 根据搜索结果，采集页面信息，获得阿里巴巴的近一周的股价信息",
-				"4. 执行脚本生成图标"
-				]","","","","",["command"],false)
-			}
 			""";
 
 	String STEP_SYSTEM_PROMPT = """

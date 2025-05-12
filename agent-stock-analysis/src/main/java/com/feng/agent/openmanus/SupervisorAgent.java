@@ -36,19 +36,19 @@ public class SupervisorAgent implements NodeAction {
 
 		String planStr = (String) t.value("plan").orElseThrow();
 		Plan tempPlan = parsePlan(planStr);
-		Plan plan = planningTool.getGraphPlan(tempPlan.getPlan_id());
+//		Plan plan = planningTool.getGraphPlan(tempPlan.getPlan_id());
 
 		Optional<Object> optionalOutput = t.value("step_output");
 
 		if (optionalOutput.isPresent()) {
-			String finalStepOutput = String.format("This is the final output of step %s:\n %s", plan.getCurrentStep(),
+			String finalStepOutput = String.format("This is the final output of step %s:\n %s", tempPlan.getCurrentStep(),
 					optionalOutput.get());
-			plan.updateStepStatus(plan.getCurrentStep(), finalStepOutput);
+			tempPlan.updateStepStatus(tempPlan.getCurrentStep(), finalStepOutput);
 		}
 
 		String promptForNextStep;
-		if (!plan.isFinished()) {
-			promptForNextStep = plan.nextStepPrompt();
+		if (!tempPlan.isFinished()) {
+			promptForNextStep = tempPlan.nextStepPrompt();
 		}
 		else {
 			promptForNextStep = "Plan completed.";
