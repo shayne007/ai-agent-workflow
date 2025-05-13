@@ -52,6 +52,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/stock-analysis")
 public class StockAnalysisController {
 
+  private static final String PLAN_NODE_ID = "plan_node";
+  private static final String LLM_CALL_NODE_ID = "llm_call";
+  private static final String ENVIRONMENT_TOOL_NODE_ID = "environment";
   private final ChatClient planningClient;
 
   private final ChatClient stepClient;
@@ -67,8 +70,7 @@ public class StockAnalysisController {
         .build();
 
     this.stepClient = ChatClient.builder(chatModel)
-        .defaultTools(List.of("getFinancialReport", "analyzeStocks"))// tools registered will only
-        .defaultAdvisors(new SimpleLoggerAdvisor())
+        .defaultTools(List.of("getFinancialReport", "analyzeStocks"))
         .defaultOptions(OpenAiChatOptions.builder().internalToolExecutionEnabled(false).build())
         .build();
 
@@ -79,12 +81,12 @@ public class StockAnalysisController {
 
     AgentStateFactory<OverAllState> stateFactory = (inputs) -> {
       OverAllState state = new OverAllState();
+      state.registerKeyAndStrategy("input", new ReplaceStrategy());
       state.registerKeyAndStrategy("plan", new ReplaceStrategy());
       state.registerKeyAndStrategy("messages", new ReplaceStrategy());
       state.registerKeyAndStrategy("step_prompt", new ReplaceStrategy());
       state.registerKeyAndStrategy("step_output", new ReplaceStrategy());
       state.registerKeyAndStrategy("final_output", new ReplaceStrategy());
-
       state.input(inputs);
       return state;
     };
@@ -100,16 +102,17 @@ public class StockAnalysisController {
     // 3. call the tool
     ToolNode toolNode = ToolNode.builder().toolNames(List.of("getFinancialReport", "analyzeStocks"))
         .build();
+    // create state graph
     StateGraph graph = new StateGraph(stateFactory)
-        .addNode("plan_node", node_async(planningNode))
-        .addNode("llm_call", node_async(llmCallNode))
-        .addNode("environment", node_async(toolNode))
+        .addNode(PLAN_NODE_ID, node_async(planningNode))
+        .addNode(LLM_CALL_NODE_ID, node_async(llmCallNode))
+        .addNode(ENVIRONMENT_TOOL_NODE_ID, node_async(toolNode))
 
-        .addEdge(START, "plan_node")
-        .addEdge("plan_node", "llm_call")
-        .addConditionalEdges("llm_call", edge_async(new ShouldContinueDispatcher()),
-            Map.of("continue", "environment", "end", END))
-        .addEdge("environment", "llm_call");
+        .addEdge(START, PLAN_NODE_ID)
+        .addEdge(PLAN_NODE_ID, LLM_CALL_NODE_ID)
+        .addConditionalEdges(LLM_CALL_NODE_ID, edge_async(new ShouldContinueDispatcher()),
+            Map.of("continue", ENVIRONMENT_TOOL_NODE_ID, "end", END))
+        .addEdge(ENVIRONMENT_TOOL_NODE_ID, LLM_CALL_NODE_ID);
 
     this.compiledGraph = graph.compile();
 

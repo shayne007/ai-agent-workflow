@@ -1,7 +1,7 @@
 package com.feng.agent.prompts;
 
 /**
- * TODO
+ *  this is prompt engineering for specific domain agent like manus style
  *
  * @since 2025/5/13
  */
@@ -55,6 +55,5 @@ public interface StockAnalysisPrompt {
       示例：
       分析报告xxxxxxxx
       Final Answer
-      {messages}
       """;
 }

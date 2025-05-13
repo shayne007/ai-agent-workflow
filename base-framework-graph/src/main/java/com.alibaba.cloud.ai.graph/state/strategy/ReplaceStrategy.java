@@ -17,6 +17,12 @@ package com.alibaba.cloud.ai.graph.state.strategy;
 
 import com.alibaba.cloud.ai.graph.KeyStrategy;
 
+/**
+ * ReplaceStrategy is a KeyStrategy that replaces the old value with the new value.
+ *
+ * @author <a href="mailto:<EMAIL>">Mercy</a>
+ * @since 0.2.0
+ */
 public class ReplaceStrategy implements KeyStrategy {
 
 	@Override

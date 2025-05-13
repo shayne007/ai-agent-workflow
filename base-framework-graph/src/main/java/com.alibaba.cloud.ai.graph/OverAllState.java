@@ -29,7 +29,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import org.springframework.util.CollectionUtils;
 
-
+/**
+ * The type Over all state.
+ *
+ * @author <NAME>
+ * <p>
+ * The overall state of the graph
+ * </p>
+ **/
 public final class OverAllState implements Serializable {
 
   private final Map<String, Object> data;
