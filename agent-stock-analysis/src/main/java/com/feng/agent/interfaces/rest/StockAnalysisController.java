@@ -20,7 +20,6 @@ import static com.alibaba.cloud.ai.graph.StateGraph.END;
 import static com.alibaba.cloud.ai.graph.StateGraph.START;
 import static com.alibaba.cloud.ai.graph.action.AsyncEdgeAction.edge_async;
 import static com.alibaba.cloud.ai.graph.action.AsyncNodeAction.node_async;
-import static com.feng.agent.openmanus.OpenManusPrompt.PLANNING_SYSTEM_PROMPT;
 import static com.feng.agent.openmanus.OpenManusPrompt.STEP_SYSTEM_PROMPT;
 
 import com.alibaba.cloud.ai.graph.CompiledGraph;
@@ -30,11 +29,16 @@ import com.alibaba.cloud.ai.graph.GraphStateException;
 import com.alibaba.cloud.ai.graph.OverAllState;
 import com.alibaba.cloud.ai.graph.StateGraph;
 import com.alibaba.cloud.ai.graph.agent.ReactAgent;
+import com.alibaba.cloud.ai.graph.node.LlmNode;
+import com.alibaba.cloud.ai.graph.node.ToolNode;
 import com.alibaba.cloud.ai.graph.state.AgentStateFactory;
 import com.alibaba.cloud.ai.graph.state.strategy.ReplaceStrategy;
+import com.feng.agent.config.ShouldContinueDispatcher;
 import com.feng.agent.openmanus.SupervisorAgent;
-import com.feng.agent.tool.Builder;
-import com.feng.agent.tool.PlanningTool;
+import com.feng.agent.openmanus.tool.Builder;
+import com.feng.agent.openmanus.tool.PlanningTool;
+import com.feng.agent.prompts.StockAnalysisPrompt;
+import java.util.List;
 import java.util.Map;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
@@ -45,8 +49,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/manus")
-public class OpenmanusController {
+@RequestMapping("/stock-analysis")
+public class StockAnalysisController {
 
   private final ChatClient planningClient;
 
@@ -55,22 +59,15 @@ public class OpenmanusController {
   private CompiledGraph compiledGraph;
 
   // 也可以使用如下的方式注入 ChatClient
-  public OpenmanusController(ChatModel chatModel) throws GraphStateException {
+  public StockAnalysisController(ChatModel chatModel) throws GraphStateException {
 
     this.planningClient = ChatClient.builder(chatModel)
-        .defaultSystem(PLANNING_SYSTEM_PROMPT)
-        // .defaultAdvisors(new MessageChatMemoryAdvisor(new InMemoryChatMemory()))
         .defaultAdvisors(new SimpleLoggerAdvisor())
-        .defaultTools(Builder.getToolCallList())// tools registered will only be used
-        // as tool description
         .defaultOptions(OpenAiChatOptions.builder().internalToolExecutionEnabled(false).build())
         .build();
 
     this.stepClient = ChatClient.builder(chatModel)
-        .defaultSystem(STEP_SYSTEM_PROMPT)
-        // .defaultAdvisors(new MessageChatMemoryAdvisor(new InMemoryChatMemory()))
-        .defaultTools(Builder.getManusAgentToolCalls())// tools registered will only
-        // be used as tool description
+        .defaultTools(List.of("getFinancialReport", "analyzeStocks"))// tools registered will only
         .defaultAdvisors(new SimpleLoggerAdvisor())
         .defaultOptions(OpenAiChatOptions.builder().internalToolExecutionEnabled(false).build())
         .build();
@@ -83,6 +80,7 @@ public class OpenmanusController {
     AgentStateFactory<OverAllState> stateFactory = (inputs) -> {
       OverAllState state = new OverAllState();
       state.registerKeyAndStrategy("plan", new ReplaceStrategy());
+      state.registerKeyAndStrategy("messages", new ReplaceStrategy());
       state.registerKeyAndStrategy("step_prompt", new ReplaceStrategy());
       state.registerKeyAndStrategy("step_output", new ReplaceStrategy());
       state.registerKeyAndStrategy("final_output", new ReplaceStrategy());
@@ -91,31 +89,32 @@ public class OpenmanusController {
       return state;
     };
 
-    SupervisorAgent supervisorAgent = new SupervisorAgent(PlanningTool.INSTANCE);
-    // planning agent is a llm node with a tool which can create structured plan
-    // so it is actually a subgraph
-    ReactAgent planningAgent = new ReactAgent("planningAgent", planningClient,
-        Builder.getFunctionCallbackList(), 10);
-    planningAgent.getAndCompileGraph();
-    ReactAgent stepAgent = new ReactAgent("stepAgent", stepClient,
-        Builder.getManusAgentFunctionCallbacks(), 10);
-    stepAgent.getAndCompileGraph();
-
+    // 1.use deepseek r1 to generate a plan
+    LlmNode planningNode = LlmNode.builder().chatClient(planningClient)
+        .systemPromptTemplate(StockAnalysisPrompt.PLANNING_PROMPT).userPromptTemplateKey("input")
+        .outputKey("plan").messagesKey("messages").build();
+    // 2. use deepseek v3 to decide whether to call a tool or not
+    LlmNode llmCallNode = LlmNode.builder().chatClient(stepClient)
+        .userPromptTemplate(StockAnalysisPrompt.STEP_PROMPT).paramsKey(List.of("plan", "messages"))
+        .messagesKey("messages").build();
+    // 3. call the tool
+    ToolNode toolNode = ToolNode.builder().toolNames(List.of("getFinancialReport", "analyzeStocks"))
+        .build();
     StateGraph graph = new StateGraph(stateFactory)
-        .addNode("planning_agent", planningAgent.asAsyncNodeAction("input", "plan"))
-        .addNode("supervisor_agent", node_async(supervisorAgent))
-        .addNode("step_executing_agent", stepAgent.asAsyncNodeAction("step_prompt", "step_output"))
+        .addNode("plan_node", node_async(planningNode))
+        .addNode("llm_call", node_async(llmCallNode))
+        .addNode("environment", node_async(toolNode))
 
-        .addEdge(START, "planning_agent")
-        .addEdge("planning_agent", "supervisor_agent")
-        .addConditionalEdges("supervisor_agent", edge_async(supervisorAgent::think),
-            Map.of("continue", "step_executing_agent", "end", END))
-        .addEdge("step_executing_agent", "supervisor_agent");
+        .addEdge(START, "plan_node")
+        .addEdge("plan_node", "llm_call")
+        .addConditionalEdges("llm_call", edge_async(new ShouldContinueDispatcher()),
+            Map.of("continue", "environment", "end", END))
+        .addEdge("environment", "llm_call");
 
     this.compiledGraph = graph.compile();
 
     GraphRepresentation graphRepresentation = compiledGraph.getGraph(Type.MERMAID);
-    System.out.println("\n\n");
+    System.out.println("stock analysis planning graph: \n\n");
     System.out.println(graphRepresentation.content());
     System.out.println("\n\n");
   }
@@ -126,7 +125,7 @@ public class OpenmanusController {
   @GetMapping("/chat")
   public String simpleChat(String query) {
 
-    return compiledGraph.invoke(Map.of("input", query)).get().data().toString();
+    return compiledGraph.invoke(Map.of("input", query, "plan", "")).get().data().toString();
   }
 
 }

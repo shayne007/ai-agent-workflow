@@ -18,8 +18,8 @@ package com.feng.agent.openmanus;
 import com.alibaba.cloud.ai.graph.OverAllState;
 import com.alibaba.cloud.ai.graph.action.NodeAction;
 import com.alibaba.fastjson.JSON;
-import com.feng.agent.tool.Plan;
-import com.feng.agent.tool.PlanningTool;
+import com.feng.agent.openmanus.tool.Plan;
+import com.feng.agent.openmanus.tool.PlanningTool;
 import java.util.Map;
 import java.util.Optional;
 

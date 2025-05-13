@@ -13,34 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.feng.agent.tool.support;
+package com.feng.agent.openmanus.tool.support;
 
-public class ToolExecuteResult {
+public class ExecuteCommandResult {
 
-	public ToolExecuteResult() {
-
-	}
-
-	public ToolExecuteResult(String output) {
-		setOutput(output);
-	}
-
-	public ToolExecuteResult(String output, boolean interrupted) {
-		setOutput(output);
-		setInterrupted(interrupted);
-	}
-
-	/**
-	 * 工具返回的内容
-	 */
 	private String output;
 
-	/**
-	 * 是否中断
-	 */
-	private boolean interrupted;
+	private Integer exitCode;
 
-	public String getOutput() {
+	String getOutput() {
 		return output;
 	}
 
@@ -48,12 +29,12 @@ public class ToolExecuteResult {
 		this.output = output;
 	}
 
-	boolean isInterrupted() {
-		return interrupted;
+	Integer getExitCode() {
+		return exitCode;
 	}
 
-	void setInterrupted(boolean interrupted) {
-		this.interrupted = interrupted;
+	void setExitCode(Integer exitCode) {
+		this.exitCode = exitCode;
 	}
 
 }

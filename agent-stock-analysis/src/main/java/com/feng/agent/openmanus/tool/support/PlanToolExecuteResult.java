@@ -13,38 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.feng.agent.tool.support;
+package com.feng.agent.openmanus.tool.support;
 
-public class CodeExecutionResult {
 
-	Integer exitcode;
+import com.feng.agent.openmanus.tool.Plan;
 
-	String logs;
+public class PlanToolExecuteResult extends ToolExecuteResult {
 
-	String image;
+	private String id;
 
-	Integer getExitcode() {
-		return exitcode;
+	private Plan plan;
+
+	public PlanToolExecuteResult(String output, String id) {
+		super(output);
+		this.id = id;
 	}
 
-	void setExitcode(Integer exitcode) {
-		this.exitcode = exitcode;
+	public PlanToolExecuteResult(Plan plan, String output, String id) {
+		super(output);
+		this.id = id;
+		this.plan = plan;
 	}
 
-	public String getLogs() {
-		return logs;
+	String getId() {
+		return id;
 	}
 
-	public void setLogs(String logs) {
-		this.logs = logs;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
+	void setId(String id) {
+		this.id = id;
 	}
 
 }

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.feng.agent.tool.support.serpapi;
+package com.feng.agent.openmanus.tool.support.serpapi;
 
 public class SerpApiProperties {
 

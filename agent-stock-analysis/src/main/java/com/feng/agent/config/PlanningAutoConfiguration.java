@@ -16,9 +16,9 @@
 
 package com.feng.agent.config;
 
-import com.feng.agent.tool.GoogleSearch;
-import com.feng.agent.tool.PlanningTool;
-import com.feng.agent.tool.PythonExecute;
+import com.feng.agent.openmanus.tool.GoogleSearch;
+import com.feng.agent.openmanus.tool.PlanningTool;
+import com.feng.agent.openmanus.tool.PythonExecute;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.feng.agent.tool;
+package com.feng.agent.openmanus.tool;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
-import com.feng.agent.tool.support.ToolExecuteResult;
-import com.feng.agent.tool.support.serpapi.SerpApiProperties;
-import com.feng.agent.tool.support.serpapi.SerpApiService;
+import com.feng.agent.openmanus.tool.support.ToolExecuteResult;
+import com.feng.agent.openmanus.tool.support.serpapi.SerpApiProperties;
+import com.feng.agent.openmanus.tool.support.serpapi.SerpApiService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;

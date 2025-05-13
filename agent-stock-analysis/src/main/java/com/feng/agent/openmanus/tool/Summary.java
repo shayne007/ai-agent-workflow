@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.feng.agent.tool;
+package com.feng.agent.openmanus.tool;
 
-import com.feng.agent.tool.support.ToolExecuteResult;
+import com.feng.agent.openmanus.tool.support.ToolExecuteResult;
 import java.util.function.BiFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

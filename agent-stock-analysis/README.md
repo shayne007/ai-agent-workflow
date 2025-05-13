@@ -41,3 +41,29 @@ Before the implementation, we should provide:
 AKShare:
 https://akshare.akfamily.xyz/data/stock/stock.html#id135
 
+workflow design:
+- plan_node use reasoner llm to generate a plan
+- llm_call use chat llm to decide whether to call tool
+- environment do the actual too calling
+- should continue check the state whether it is final answer
+
+```mermaid
+flowchart TD
+	__START__((start))
+	__END__((stop))
+	plan_node("plan_node")
+	llm_call("llm_call")
+	environment("environment")
+	condition1{"check state"}
+	__START__:::__START__ --> plan_node:::plan_node
+	plan_node:::plan_node --> llm_call:::llm_call
+	llm_call:::llm_call -.-> condition1:::condition1
+	condition1:::condition1 -.->|continue| environment:::environment
+	%%	llm_call:::llm_call -.->|continue| environment:::environment
+	condition1:::condition1 -.->|end| __END__:::__END__
+	%%	llm_call:::llm_call -.->|end| __END__:::__END__
+	environment:::environment --> llm_call:::llm_call
+
+	classDef ___START__ fill:black,stroke-width:1px,font-size:xx-small;
+	classDef ___END__ fill:black,stroke-width:1px,font-size:xx-small;
+```

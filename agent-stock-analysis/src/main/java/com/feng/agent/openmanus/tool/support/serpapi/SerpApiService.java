@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.feng.agent.tool.support.serpapi;
+package com.feng.agent.openmanus.tool.support.serpapi;
 
-
-import static com.feng.agent.tool.support.serpapi.SerpApiProperties.SERP_API_URL;
-import static com.feng.agent.tool.support.serpapi.SerpApiProperties.USER_AGENT_VALUE;
 
 import com.fasterxml.jackson.annotation.JsonClassDescription;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -54,8 +51,8 @@ public class SerpApiService {
 		this.apikey = properties.getApikey();
 		this.engine = properties.getEngine();
 		this.webClient = WebClient.builder()
-			.baseUrl(SERP_API_URL)
-			.defaultHeader(HttpHeaders.USER_AGENT, USER_AGENT_VALUE)
+			.baseUrl(SerpApiProperties.SERP_API_URL)
+			.defaultHeader(HttpHeaders.USER_AGENT, SerpApiProperties.USER_AGENT_VALUE)
 			.codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(MAX_MEMORY_SIZE))
 			.build();
 	}
